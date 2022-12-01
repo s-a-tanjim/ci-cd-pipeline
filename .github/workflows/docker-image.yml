@@ -31,7 +31,8 @@ jobs:
     - name: Build, tag, and push docker image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        REPOSITORY: provenant-ecr-robot
+        # REPOSITORY: provenant-ecr-robot
+        REPOSITORY: witness
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker build --file DockerizeAnotherGitRepo/Dockerfile -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
