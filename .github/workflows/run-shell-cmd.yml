@@ -7,36 +7,31 @@ jobs:
   job_1:
     runs-on: ubuntu-latest
 
+    outputs:
+      op1: ${{ steps.git_hash_collector.outputs.HASH_2 }}
+
     steps:
       - name: Run shell commands
-        id: job_1
+        id: git_hash_collector
         run: |
           GIT_HASH=$(git ls-remote https://github.com/WebOfTrust/keripy HEAD)
           echo HASH=${GIT_HASH:0:7} >> $GITHUB_ENV
-          echo HASH_2=${GIT_HASH:0:7} >> $GITHUB_OUTPUT
-        # echo $HASH
-        # echo "$HASH"
+          echo "::set-output name=HASH_2::$HASH"
+  
 
       - name: Show results
         run: |
           echo $HASH
           echo "${{ env.HASH }}"
-          echo "${{ steps.job_1.outputs.HASH_2 }}"
+          echo "${{ steps.git_hash_collector.outputs.HASH_2 }}"
 
 
   job_2:
     runs-on: ubuntu-latest
-    needs: [job_1]
+    needs: job_1
 
     steps:
       - name: Show results 1
         run: |
-          echo "${{ env.HASH }}"
-          echo $HASH
+          echo ${{ needs.job_1.outputs.op1 }}
 
-
-      - name: Show results 2
-        run: |
-          echo "${{ steps.job_1.outputs.HASH_2 }}"
-          echo "${{ steps.git_hash_collector.outputs.HASH_2 }}"
-          echo $HASH_2
