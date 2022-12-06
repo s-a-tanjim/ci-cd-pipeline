@@ -16,7 +16,7 @@ jobs:
         run: |
           GIT_HASH=$(git ls-remote https://github.com/WebOfTrust/keripy HEAD)
           echo HASH=${GIT_HASH:0:7} >> $GITHUB_ENV
-          echo "::set-output name=HASH_2::$HASH"
+          echo "::set-output name=HASH_2::${GIT_HASH:0:7}"
   
 
       - name: Show results
