@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Run shell commands
-        id: git-hash-collector
+        id: git_hash_collector
         run: |
           GIT_HASH=$(git ls-remote https://github.com/WebOfTrust/keripy HEAD)
           echo HASH=${GIT_HASH:0:7} >> $GITHUB_ENV
@@ -21,6 +21,7 @@ jobs:
         run: |
           echo $HASH
           echo "${{ env.HASH }}"
+          echo "${{ steps.git_hash_collector.outputs.HASH_2 }}"
 
 
   test:
@@ -36,5 +37,5 @@ jobs:
 
       - name: Show results 2
         run: |
-          echo "${{ steps.git-hash-collector.outputs.HASH_2 }}"
+          echo "${{ steps.git_hash_collector.outputs.HASH_2 }}"
           echo $HASH_2
