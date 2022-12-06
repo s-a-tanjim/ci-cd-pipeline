@@ -1,0 +1,17 @@
+name: Run Shell Script
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run shell commands
+        run: |
+          HASH=$(git ls-remote https://github.com/WebOfTrust/keripy HEAD)
+          HASH=${HASH:0:7}
+
+      - name: Show results
+        run: echo $HASH
