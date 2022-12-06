@@ -11,9 +11,11 @@ jobs:
       - name: Run shell commands
         run: |
           HASH=$(git ls-remote https://github.com/WebOfTrust/keripy HEAD)
-          HASH=${HASH:0:7}
-          echo $HASH
-          echo "$HASH"
+          echo HASH=${HASH:0:7} >> $GITHUB_ENV
+        # echo $HASH
+        # echo "$HASH"
 
       - name: Show results
-        run: echo $HASH
+        run: |
+          echo $HASH
+          echo env.HASH
