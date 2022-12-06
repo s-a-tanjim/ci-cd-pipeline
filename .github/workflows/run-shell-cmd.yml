@@ -37,5 +37,6 @@ jobs:
 
       - name: Show results 2
         run: |
+          echo "${{ steps.run.outputs.HASH_2 }}"
           echo "${{ steps.git_hash_collector.outputs.HASH_2 }}"
           echo $HASH_2
