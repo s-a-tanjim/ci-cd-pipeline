@@ -1,0 +1,18 @@
+name: Docker Image Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Build the Docker image
+        run: |
+          HASH=$(git ls-remote https://github.com/WebOfTrust/keripy HEAD)
+          HASH=${HASH:0:7}
+        docker build . --file Docker/DockerizeAnotherGitRepo/Dockerfile --tag my-site:$HASH
