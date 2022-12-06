@@ -9,5 +9,5 @@ jobs:
 
     steps:
       - name: Run shell script
-        run: ./scripts/git-hash-parse.sh
+        run: scripts/git-hash-parse.sh
         shell: bash
