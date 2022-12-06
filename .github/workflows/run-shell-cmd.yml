@@ -18,4 +18,13 @@ jobs:
       - name: Show results
         run: |
           echo $HASH
-          echo env.HASH
+
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [run]
+
+    steps:
+      - name: Show results
+        run: |
+          echo $HASH
