@@ -1,3 +1,5 @@
+name: Sharing Docker Image Between Jobs
+
 jobs:
   build:
     runs-on: ubuntu-latest
