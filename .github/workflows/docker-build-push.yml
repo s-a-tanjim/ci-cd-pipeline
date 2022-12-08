@@ -1,0 +1,55 @@
+name: Docker Image Deploy ECR
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Collect Remote Head
+        id: git_hash_collector
+        run: |
+          GIT_HASH=$(git ls-remote https://github.com/WebOfTrust/keripy HEAD)
+          echo HASH=${GIT_HASH:0:7} >> $GITHUB_ENV
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build Docker Image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: witness
+          IMAGE_TAG: ${{ env.HASH }}
+        run: |
+          docker build --file Docker/demo/Dockerfile -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+
+      - name: Push docker image to Amazon ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: witness
+          IMAGE_TAG: ${{ env.HASH }}
+        # if: $BRANCH_NAME=='main'
+        run: |
+          echo $BRANCH_NAME
+          echo ${{ env.BRANCH_NAME }}
+          echo env.BRANCH_NAME
+        # run: |
+        #  docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+Footer
