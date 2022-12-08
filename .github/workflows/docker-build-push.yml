@@ -1,8 +1,8 @@
 name: Docker Image Build & Deploy ECR
 
 on:
-  push:
-    branches: [ "main" ]
+  # push:
+  #   branches: [ "main" ]
   workflow_dispatch:
 
 env:
@@ -45,7 +45,7 @@ jobs:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: witness
           IMAGE_TAG: ${{ env.HASH }}
-        # if: $BRANCH_NAME=='main'
+        if: ${{ env.BRANCH_NAME }}=='main'
         run: |
           echo $BRANCH_NAME
           echo ${{ env.BRANCH_NAME }}

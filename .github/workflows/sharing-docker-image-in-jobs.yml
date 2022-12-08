@@ -1,5 +1,8 @@
 name: Sharing Docker Image Between Jobs
 
+on:
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
