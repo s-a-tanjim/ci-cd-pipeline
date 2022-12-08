@@ -1,4 +1,4 @@
-name: Docker Image Deploy ECR
+name: Docker Image Build & Deploy ECR
 
 on:
   push:
@@ -52,4 +52,3 @@ jobs:
           echo env.BRANCH_NAME
         # run: |
         #  docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-Footer
